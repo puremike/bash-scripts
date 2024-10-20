@@ -13,10 +13,22 @@ read -p "Enter username to create user account: " USER_NAME
 read -p "Enter real name for comment: " COMMENT
 
 # Get the password.
-read -p "Enter password for user account: " PASSWORD
+read -sp "Enter password for user account: " PASSWORD
+
+# check if username or password was provided - inputs validation
+if [[ -z "$USER_NAME" || -z "$PASSWORD" ]]; then
+    echo "Username or password cannot be empty"
+    exit 1
+fi
+
+# Check if the user already exists.
+if id "$USER_NAME" &>/dev/null; then
+    echo "User '$USER_NAME' already exists."
+    exit 1
+fi
 
 # Create the user with the password.
-useradd -c "$COMMENT" -m $USER_NAME
+useradd -c "$COMMENT" -m "$USER_NAME"
 
 # Check to see if the useradd command succeeded.
 if [[ $? -ne 0 ]]; then
@@ -34,7 +46,7 @@ if [[ $? -ne 0 ]]; then
 fi
 
 # Force password change on first login.
-passwd -e $USER_NAME
+passwd -e "$USER_NAME"
 
 # Display the username, password, and the host where the user was created.
 echo
