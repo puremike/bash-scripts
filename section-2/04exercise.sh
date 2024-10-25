@@ -13,12 +13,13 @@ fi
 
 if [[ "$#" -lt 1 ]]; then
     echo "Usage: $0 USER_NAME [COMMENT]....."
+    echo "Create an account on the local system with the name of USER_NAME and a comment field of COMMENT"
     exit 1
 fi
 
 USER_NAME="$1"
 
-# Ensure the other arguments goes into the COMMENT FIELD
+# Ensure the other arguments shift into the COMMENT FIELD
 shift
 
 COMMENT="$@"
@@ -26,7 +27,6 @@ COMMENT="$@"
 # Check if the user/account name already exist
 if id "$USER_NAME" &>/dev/null; then
     echo "User $USER_NAME already exist"
-    echo "Create an account on the local system with the name of USER_NAME and a comment field of COMMENT"
     exit 1
 fi
 
